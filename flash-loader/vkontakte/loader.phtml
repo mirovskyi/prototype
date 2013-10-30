@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+    <title>vk_container</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css" media="screen">
+        html, body{height:100%; background-color: #ffc;}
+        body{margin:0; padding:0;
+        // overflow:hidden;
+        }
+        .b-wrap_buttons{text-align:center; margin-top:5px;}
+        input{padding: 4px; font-size:12px;}
+        .b-wrap_users{margin:5px 0 0 5px}
+        .b-wrap_profile{margin-bottom:10px}
+        .b-wrap_profile img{margin-right:5px;width:100px;}
+        .b-wrap_profile img, .b-wrap_profile span{vertical-align:top;}
+    </style>
+    <script type="text/javascript" src="swfobject.js"></script>
+    <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="flashContent">
+    <div id="b-object">Инициолизация Приложения...</div>
+</div>
+<div class="b-wrap_users"></div>
+<script type="text/javascript">
+
+    var groupId = 18154996;
+
+    function initAppFlags(callback) {
+        var flags = [0,0,0,0,0];
+        if (VK.params.is_app_user) {
+            flags[0] = 1;
+        }
+        if (VK.params.api_settings & 256) {
+            flags[2] = 1;
+        }
+        VK.api('groups.isMember', {gid:groupId}, function(res){
+            if (res.response != undefined) {
+                flags[1] = res.response;
+            }
+            callback(flags.join('|'));
+        });
+    }
+    function initFlashContainerToStage(flags) {
+        var width 		= "760";
+        var height 		= "780";
+        var movie 		= "vkindex.swf";
+        var version 	= "10.2.0";
+        var replaceDiv  = "b-object";
+        var flink 		= "" + window.location.search.substr(1);
+        if(flags){
+            flink += "&flags=" + flags;
+        }
+        var params = {};
+        params.quality   = "high";
+        params.bgcolor	 = "#4a453f";
+        params.flashvars = flink;
+        params.wmode = "opaque";
+        params.menu = false;
+        //params.al = false;
+        params.allowfullscreen = true;
+        params.allownetworking = "all";
+        params.allowscriptaccess = "always";
+        params.allowfullscreeninteractive = true;
+        var attributes = {};
+        attributes.id  = "testJSAPI";
+        swfobject.embedSWF(movie, replaceDiv, width, height, version, "false", "false", params, attributes);
+    }
+
+    // EVENTS
+    function onApplicationAdded() {
+        //this.getSWF("testJSAPI").callflag1("1");
+        //alert("callflag1");
+    }
+    function onSettingsChanged() {
+        document.location.reload();
+    }
+    function onBalanceChanged() {
+        //getSWF("testJSAPI").callflag5("1");
+        //alert("callflag3");
+    }
+    function onOrderSuccess(orderId) {
+        alert("onOrderSuccess , id="+orderId);
+        thisMovie("testJSAPI").orderSuccess(orderId);
+    }
+    function onOrderFail() {
+        alert("onOrderFail");
+        thisMovie("testJSAPI").orderFail();
+    }
+    function thisMovie(movieName) {
+        if (navigator.appName.indexOf("Microsoft") != -1) {
+            return window.getElementById(movieName);
+        } else {
+            return document.getElementById(movieName);
+        }
+    }
+
+    function setGroupe() {
+        setGroup(groupId);
+    }
+    function addInBookmark() {
+        var is_app_user = VK.params.is_app_user;
+        if(is_app_user == 1){
+            showSettingsBox(258);
+        } else {
+            VK.addCallback("onApplicationAdded", showSettingsBox);
+            showInstallBox();
+        }
+    }
+    function setGroup(id_group) {
+        var newWindow = window.open('http://vk.com/club'+id_group, '_blank');
+        newWindow.focus();
+        return false;
+    }
+    function showInstallBox() {
+        if(VK.params.is_app_user){
+            alert("Вы уже установили эту игру");
+        } else {
+            VK.callMethod("showInstallBox");
+        }
+    }
+    function showInviteBox() {
+        VK.callMethod("showInviteBox");
+    }
+    function showPaymentBox() {
+        VK.callMethod("showPaymentBox", 0);
+        return false;
+    }
+    function showRequestBox() {
+        VK.callMethod("showRequestBox");
+    }
+    function showSettingsBox(setting) {
+        if(!setting) setting = 258;
+        VK.callMethod("showSettingsBox",+setting);
+    }
+	function buyForVotes(obj) {
+		alert("callflag3");
+		VK.callMethod("showOrderBox", obj);
+	}
+    function getProfiles() {
+        if(!(VK.params.api_settings & 2)){
+            showSettingsBox(2);
+        }
+        VK.api("friends.get", {fields:"first_name, last_name, photo_medium"}, function(dataAllFriends) {
+            var profiles = '';
+            $.each(dataAllFriends.response, function(i, val){
+                profiles += '<div class="b-wrap_profile">';
+                profiles += '<img src="'+val.photo_medium+'" />';
+                profiles += '<span>'+val.first_name+' '+val.last_name+'</span></div>';
+            });
+            $(".b-wrap_users").html(profiles);
+        });
+    }
+    function chipsGift(id) {
+        var link = 'http://vk.com/app' + VK.params.api_id + '#action=gift&user_from= ' + VK.params.viewer_id + ' &gift_name=chips100';
+        var attach = 'photo174479190_289255863,' + link;
+        VK.api('wall.post', {owner_id:id, message:'Подарок 100 фишек', attachments:attach}, function(result){
+            if (result.response != undefined && result.response.post_id > 0) {
+                thisMovie("testJSAPI").chipsGift(id);
+            }
+        });
+    }
+
+    VK.init(function() {
+        VK.loadParams(document.location.href);
+        VK.callMethod("setTitle", "Клуб Игрок");
+        VK.addCallback("onApplicationAdded", onApplicationAdded);
+        VK.addCallback("onSettingsChanged", onSettingsChanged);
+        VK.addCallback("onBalanceChanged", onBalanceChanged);
+        VK.addCallback("onOrderSuccess", onOrderSuccess);
+        VK.addCallback("onOrderFail", onOrderFail);
+        VK.addCallback("onOrderCancel", onOrderFail);
+        initAppFlags(function(flags){
+            initFlashContainerToStage(flags);
+        });
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,22 @@
+<params>
+    <history type="<?=$this->type?>">
+        <?php if (null !== $this->date): ?>
+        <date><?=$this->date?></date>
+        <?php endif; ?>
+        <game id="<?=$this->game?>">
+            <?php foreach($this->records as $record): ?>
+            <record>
+                <sid><?=$record->getIdGame()?></sid>
+                <bet><?=$record->getBet()?></bet>
+                <players>
+                <?php foreach($record->getPlayersInfo() as $pos => $info): ?>
+                    <player pos="<?=$pos?>" name="<?=$info['name']?>"><?=$info['winamount']?></player>
+                <?php endforeach; ?>
+                </players>
+                <date><?=$record->getDate()?></date>
+                <time><?=$record->getTime()?></time>
+            </record>
+            <?php endforeach; ?>
+        </game>
+    </history>
+</params>

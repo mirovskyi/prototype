@@ -1,0 +1,7 @@
+data/cache/api/
+data/cache/database/
+data/cache/server/
+
+data/logs/api/
+data/logs/cron/
+data/logs/debug/

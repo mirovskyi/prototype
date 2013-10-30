@@ -1,0 +1,18 @@
+<params>
+    <user id="<?=$this->idUser?>">
+        <name><?=$this->nameUser?></name>
+        <balance><?=$this->balanceUser?></balance>
+        <photo><?=$this->photoUser?></photo>
+        <flags><?=$this->flags?></flags>
+        <bonus h="<?=$this->timers['hourBonus']?>" d="<?=$this->timers['dailyBonus']?>" />
+        <present rest="<?=$this->timers['friendPresent']?>" />
+    </user>
+    <servers>
+        <?php foreach($this->games as $game): ?>
+        <game id="<?=$game['name']?>">
+            <url><?=$game['url']?></url>
+            <online><?=$game['online']?></online>
+        </game>
+        <?php endforeach; ?>
+    </servers>
+</params>

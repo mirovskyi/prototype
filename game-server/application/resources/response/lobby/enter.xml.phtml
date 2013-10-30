@@ -1,0 +1,13 @@
+<params>
+    <?php if (isset($this->user)): ?>
+    <user login="<?=$this->user['login']?>" balance="<?=$this->user['balance']?>" name="<?=$this->user['name']?>" email="<?=$this->user['email']?>" phone="<?=$this->user['phone']?>" country="<?=$this->user['country']?>" sex="<?=$this->user['sex']?>" birth="<?=$this->user['birth']?>" lang="<?=$this->user['lang']?>" mode="<?=$this->user['mode']?>" />
+    <?php endif; ?>
+    <servers>
+        <?php foreach($this->games as $game): ?>
+        <game id="<?=$game['name']?>">
+            <url><?=$game['url']?></url>
+            <online><?=$game['online']?></online>
+        </game>
+        <?php endforeach; ?>
+    </servers>
+</params>

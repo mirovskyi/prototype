@@ -1,0 +1,13 @@
+<params>
+    <result>ok</result>
+    <?php if (isset($this->games)): ?>
+    <servers>
+        <?php foreach($this->games as $game): ?>
+        <game id="<?=$game['name']?>">
+            <url><?=$game['url']?></url>
+            <online><?=$game['online']?></online>
+        </game>
+        <?php endforeach; ?>
+    </servers>
+    <?php endif; ?>
+</params>

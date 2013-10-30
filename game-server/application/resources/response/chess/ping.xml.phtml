@@ -1,0 +1,15 @@
+    <params>
+        <gamedata>
+            <timeout>
+                <?=$this->timeout($this->game)?>
+            </timeout>
+        </gamedata>
+        <events>
+            <?php foreach($this->game->getEvents() as $event): ?>
+            <?=$event?>
+            <?php endforeach; ?>
+        </events>
+        <chat>
+            <?=$this->chat?>
+        </chat>
+    </params>

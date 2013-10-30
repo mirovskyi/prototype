@@ -1,0 +1,14 @@
+<params>
+    <?php if (isset($this->gameSid)): ?>
+    <session type="game"><?=$this->gameSid?></session>
+    <?php endif; ?>
+    <users>
+        <?php foreach($this->users as $user): ?>
+        <user sid="<?=$user->getSid()?>">
+            <id><?=$user->getSocialUser()->getId()?></id>
+            <name><?=$user->getSocialUser()->getName()?></name>
+            <photo><?=$user->getSocialUser()->getPhotoUrl()?></photo>
+        </user>
+        <?php endforeach; ?>
+    </users>
+</params>

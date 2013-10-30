@@ -1,0 +1,28 @@
+console:
+  
+  database:
+    adapter: pdo_mysql
+    params:
+      host: localhost
+      username: root
+      password:
+      dbname: game_balance
+      charset: UTF8
+    
+    
+  rules:
+    generate:
+      orm:
+        tablename:
+          key: table-name|t=s
+          value: Наименование таблицы
+        directory:
+          key: path|d=s
+          value: Путь к директории модели
+        classname:
+          key: class-name|c=s
+          value: Название класса модели
+        help:
+          key: help|h
+          value: Справка
+          

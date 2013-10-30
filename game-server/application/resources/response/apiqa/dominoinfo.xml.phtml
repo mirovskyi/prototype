@@ -1,0 +1,19 @@
+<params>
+    <command><?=$this->command?></command>
+    <status><?=$this->status?></status>
+    <bet><?=$this->bet?></bet>
+    <game>
+        <reserve><?=$this->reserve?></reserve>
+        <series><?=$this->series?></series>
+        <players>
+            <?php foreach($this->players as $sid => $info): ?>
+            <player>
+                <sid><?=$sid?></sid>
+                <name><?=$info['name']?></name>
+                <time><?=$info['time']?></time>
+                <bones><?=$info['bones']?></bones>
+            </player>
+            <?php endforeach; ?>
+        </players>
+    </game>
+</params>

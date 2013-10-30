@@ -1,0 +1,10 @@
+<params>
+    <invite>
+        <?php foreach($this->users as $sid => $info): ?>
+        <user sid="<?=$sid?>">
+            <name><?=$info['name']?></name>
+            <photo><?=$info['photo']?></photo>
+        </user>
+        <?php endforeach; ?>
+    </invite>
+</params>

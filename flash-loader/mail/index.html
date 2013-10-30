@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+    <title>vk_container</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css" media="screen">
+        html, body{height:100%; background-color: #006600;}
+        body{margin:0; padding:0;
+         overflow:hidden;
+        }
+        .b-wrap_buttons{text-align:center; margin-top:5px;}
+        input{padding: 4px; font-size:12px;}
+        .b-wrap_users{margin:5px 0 0 5px}
+        .b-wrap_profile{margin-bottom:10px}
+        .b-wrap_profile img{margin-right:5px;width:100px;}
+        .b-wrap_profile img, .b-wrap_profile span{vertical-align:top;}
+    </style>
+    <script type="text/javascript" src="swfobject.js"></script>
+    <script type="text/javascript" src="http://connect.mail.ru/js/loader.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="flashContent">
+<center>
+    <div id="b-object">
+		<table width="760" height="780" border="0"><tr><td>
+		<center>Инициолизация Приложения...<br />пожалуйста, подождите.</center>
+		</td></tr></table>
+	</div>
+</center>
+</div>
+<div class="b-wrap_users"></div>
+<script type="text/javascript">
+
+    var groupId = 18154996;
+	initFlashContainerToStage("0|0|0|0|0");
+    function initAppFlags(callback) {
+        var flags = [0,0,0,0,0];
+		callback(flags.join('|'));
+   
+    }
+    function initFlashContainerToStage(flags) {
+        var width 		= "760";
+        var height 		= "780";
+        var movie 		= "mrindex.swf";
+        var version 	= "10.2.0";
+        var replaceDiv  = "b-object";
+        var flink 		= "" + window.location.search.substr(1);
+       /* if(flags){
+            flink += "&flags=" + flags;
+        }
+		*/
+        var params = {};
+        params.quality   = "high";
+        params.bgcolor	 = "#23d92c";
+        params.flashvars = flink;
+        params.wmode = "opaque";
+        params.menu = false;
+        //params.al = false;
+        params.allowfullscreen = true;
+        params.allownetworking = "all";
+        params.allowscriptaccess = "always";
+        params.allowfullscreeninteractive = true;
+        var attributes = {};
+        attributes.id  = "testJSAPI";
+        swfobject.embedSWF(movie, replaceDiv, width, height, version, "false", "false", params, attributes);
+    }
+
+    // EVENTS
+    function onApplicationAdded() {
+        //this.getSWF("testJSAPI").callflag1("1");
+        //alert("callflag1");
+    }
+    function onSettingsChanged() {
+        document.location.reload();
+    }
+    function onBalanceChanged() {
+        //getSWF("testJSAPI").callflag5("1");
+        //alert("callflag3");
+    }
+    /*function onOrderSuccess(orderId) {
+        alert("onOrderSuccess , id="+orderId);
+        thisMovie("testJSAPI").orderSuccess(orderId);
+    }
+    function onOrderFail() {
+        alert("onOrderFail");
+        thisMovie("testJSAPI").orderFail();
+    }
+	*/
+    function thisMovie(movieName) {
+        if (navigator.appName.indexOf("Microsoft") != -1) {
+            return window.getElementById(movieName);
+        } else {
+            return document.getElementById(movieName);
+        }
+    }
+
+    function setGroupe() { }
+    function addInBookmark() { }
+    function setGroup(id_group) { }
+    function showInstallBox() {  }
+    function showInviteBox() { }
+    function showPaymentBox() { }
+    function showRequestBox() { }
+    function showSettingsBox(setting) { }
+	function buyForVotes(obj) { }
+    function getProfiles() { }
+    function chipsGift(id) { }
+
+   
+	
+</script>
+</body>
+</html>
+

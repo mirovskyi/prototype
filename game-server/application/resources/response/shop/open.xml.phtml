@@ -1,0 +1,24 @@
+<params>
+    <?php if (isset($this->items)): ?>
+    <shop>
+        <?php foreach($this->items as $item): ?>
+        <item name="<?=$item['name']?>" sold="<?=$item['sold']?>" exptime="<?=$item['exptime']?>">
+            <?php foreach($item['prices'] as $priceInfo): ?>
+            <price id="<?=$priceInfo['id']?>" days="<?=$priceInfo['days']?>" count="<?=$priceInfo['count']?>">
+                <chips><?=$priceInfo['chips']?></chips>
+                <smoney><?=$priceInfo['money']?></smoney>
+            </price>
+            <?php endforeach; ?>
+        </item>
+        <?php endforeach; ?>
+    </shop>
+    <?php endif; ?>
+
+    <?php if (isset($this->payment)): ?>
+    <payment>
+        <productId><?=$this->payment['productId']?></productId>
+        <productName><?=$this->payment['productName']?></productName>
+        <amount><?=$this->payment['amount']?></amount>
+    </payment>
+    <?php endif; ?>
+</params>

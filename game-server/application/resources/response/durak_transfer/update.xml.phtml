@@ -1,0 +1,59 @@
+<params>
+    <?php if(isset($this->userSess)): ?>
+    <session type="user"><?=$this->usersid($this->userSess)?></session>
+    <?php endif; ?>
+    <?php if(isset($this->gameSess)): ?>
+    <session type="game"><?=$this->gameSess?></session>
+    <?php endif; ?>
+    <gamedata>
+        <vip><?=$this->vip?></vip>
+        <sitdown><?=$this->sitdown?></sitdown>
+        <?=$this->drawoffer($this->gameSess, $this->userSess)?>
+        <userdata>
+            <opponents>
+                <?php $selfPosition = null; ?>
+                <?php foreach($this->game->getPlaces() as $pos => $player): ?>
+                    <?php if (null !== $player): ?>
+                    <user pos="<?=$pos?>" id="<?=$this->userInfo[$player->getSid()]->getSocialUser()->getId()?>" sid="<?=$this->usersid($player->getSid())?>">
+                        <name><?=$this->userInfo[$player->getSid()]->getSocialUser()->getName()?></name>
+                        <photo><?=$this->userInfo[$player->getSid()]->getSocialUser()->getPhotoUrl()?></photo>
+                        <balance><?=$player->getBalance()?></balance>
+                        <?=$this->gamepoints($this->game, $player->getSid())?>
+                        <items><?=$this->userInfo[$player->getSid()]->getItemsString()?></items>
+                    </user>
+                    <?php if ($player->getSid() == $this->userSess) $selfPosition = $pos;  ?>
+                    <?php else: ?>
+                    <user pos="<?=$pos?>" />
+                    <?php endif ?>
+                <?php endforeach; ?>
+            </opponents>
+        </userdata>
+        <cards>
+            <?php if ($this->game->getStatus() == Core_Game_Abstract::STATUS_PLAY): ?>
+                <?=$this->game->getAnimation()->show($this->getRequest()->get('command', 0), $this->game, $selfPosition)?>
+            <?php endif; ?>
+        </cards>
+        <bet><?=$this->game->getBet()?></bet>
+        <timeout>
+            <?=$this->timeout($this->game)?>
+        </timeout>
+        <?php if ($this->game->getStatus() == Core_Game_Abstract::STATUS_PLAY): ?>
+            <?=$this->durakactiveblock($this->userSess, $this->game)?>
+            <?=$this->game->getAnimation()->showStart()?>
+        <?php endif; ?>
+        <?=$this->status($this->game, $this->userSess)?>
+        <?php if($this->game->getStatus() == Core_Game_Abstract::STATUS_FINISH): ?>
+        <winners>
+            <?=$this->winblock($this->game)?>
+        </winners>
+        <?php endif; ?>
+    </gamedata>
+    <events>
+        <?php foreach($this->game->getEvents() as $event): ?>
+        <?=$event?>
+        <?php endforeach; ?>
+    </events>
+    <chat>
+        <?=$this->chat?>
+    </chat>
+</params>

@@ -1,0 +1,39 @@
+<params>
+    <saved>
+        <?php foreach($this->games as $game): ?>
+        <<?=$game?> />
+        <?php endforeach; ?>
+    </saved>
+
+    <sections>
+    <?php if (count($this->currentDayGames)): ?>
+        <history type="date" date="<?=$this->currentDate?>">
+            <games>
+                <?php foreach($this->currentDayGames as $game => $gameCount): ?>
+                <<?=$game?> count="<?=$gameCount?>" />
+                <?php endforeach; ?>
+            </games>
+        </history>
+    <?php endif; ?>
+
+    <?php if (count($this->previousDayGames)): ?>
+        <history type="date" date="<?=$this->previousDate?>">
+            <games>
+                <?php foreach($this->previousDayGames as $game => $gameCount): ?>
+                <<?=$game?> count="<?=$gameCount?>" />
+                <?php endforeach; ?>
+            </games>
+        </history>
+    <?php endif; ?>
+
+    <?php if (count($this->favorite)): ?>
+        <history type="favorite">
+            <games>
+                <?php foreach($this->favorite as $game => $gameCount): ?>
+                <<?=$game?> count="<?=$gameCount?>" />
+                <?php endforeach; ?>
+            </games>
+        </history>
+    <?php endif; ?>
+    </sections>
+</params>

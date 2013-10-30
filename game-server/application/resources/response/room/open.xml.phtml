@@ -1,0 +1,41 @@
+<params>
+    <session type="user"><?=$this->userSess->getKey()?></session>
+    <user id="<?=$this->user->getId()?>">
+        <name><?=$this->user->getName()?></name>
+        <photo><?=$this->user->getPhotoUrl()?></photo>
+        <timer><?=$this->timer?></timer>
+        <vip><?=$this->vip?></vip>
+    </user>
+    <games>
+        <?php foreach($this->games as $game): ?>
+        <game sid="<?=$game['sid']?>">
+            <vip><?=$game['vip']?></vip>
+            <enable><?=$game['enable']?></enable>
+            <timeout>
+                <step><?=$game['timestep']?></step>
+                <game><?=$game['timegame']?></game>
+            </timeout>
+            <bet><?=$game['bet']?></bet>
+            <mb><?=$game['minBalance']?></mb>
+            <me><?=$game['minExperience']?></me>
+            <o><?=$game['spectator']?></o>
+            <s><?=$game['status']?></s>
+            <users>
+                <?php foreach($game['users'] as $pos => $user): ?>
+                <user pos="<?=$pos?>">
+                    <?php if (null !== $user): ?>
+                    <sid><?=$user['sid']?></sid>
+                    <id><?=$user['id']?></id>
+                    <name><?=$user['name']?></name>
+                    <photo><?=$user['photo']?></photo>
+                    <?php endif; ?>
+                </user>
+                <?php endforeach;?>
+            </users>
+        </game>
+        <?php endforeach; ?>
+    </games>
+    <chat>
+        <?=$this->chat?>
+    </chat>
+</params>

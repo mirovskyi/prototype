@@ -1,0 +1,55 @@
+<params>
+    <?php if(isset($this->userSess)): ?>
+    <session type="user"><?=$this->usersid($this->userSess)?></session>
+    <?php endif; ?>
+    <?php if(isset($this->gameSess)): ?>
+    <session type="game"><?=$this->gameSess?></session>
+    <?php endif; ?>
+    <gamedata>
+        <vip><?=$this->vip?></vip>
+        <sitdown><?=$this->sitdown?></sitdown>
+        <?=$this->drawoffer($this->gameSess, $this->userSess)?>
+        <userdata>
+            <opponents>
+                <?php foreach($this->game->getPlaces() as $pos => $player): ?>
+                    <?php if (null !== $player): ?>
+                    <user pos="<?=$pos?>" id="<?=$this->userInfo[$player->getSid()]->getSocialUser()->getId()?>" sid="<?=$this->usersid($player->getSid())?>" alias="<?=$player->getId()?>">
+                        <color id="<?=$player->getColor()?>" />
+                        <name><?=$this->userInfo[$player->getSid()]->getSocialUser()->getName()?></name>
+                        <photo><?=$this->userInfo[$player->getSid()]->getSocialUser()->getPhotoUrl()?></photo>
+                        <balance><?=$player->getBalance()?></balance>
+                        <?=$this->gamepoints($this->game, $player->getSid())?>
+                        <items><?=$this->userInfo[$player->getSid()]->getItemsString()?></items>
+                    </user>
+                    <?php else: ?>
+                    <user pos="<?=$pos?>" />
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </opponents>
+        </userdata>
+        <pg>
+            <?php foreach($this->game->getTableRows() as $row): ?>
+            <s><?=$row?></s>
+            <?php endforeach; ?>
+        </pg>
+        <bet><?=$this->game->getBet()?></bet>
+        <timeout>
+            <?=$this->timeout($this->game)?>
+        </timeout>
+        <active sid="<?=$this->usersid($this->game->getPlayersContainer()->getActivePlayer())?>" />
+        <?=$this->status($this->game, $this->userSess)?>
+        <?php if($this->game->getStatus() == Core_Game_Abstract::STATUS_FINISH): ?>
+        <winners>
+            <?=$this->winblock($this->game)?>
+        </winners>
+        <?php endif; ?>
+    </gamedata>
+    <events>
+        <?php foreach($this->game->getEvents() as $event): ?>
+        <?=$event?>
+        <?php endforeach; ?>
+    </events>
+    <chat>
+        <?=$this->chat?>
+    </chat>
+</params>
